@@ -2,7 +2,7 @@ name: aqar_plus
 description: "A new Flutter project."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -28,18 +28,15 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  cupertino_icons: ^1.0.8
   flutter:
     sdk: flutter
-
-
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.8
+  flutter_rating_bar: ^4.0.0
+  get: ^4.6.6
+  http: ^0.13.0
+  provider: ^6.1.5
 
 dev_dependencies:
-  flutter_test:
-    sdk: flutter
-  flutter_native_splash: ^2.4.4
   flutter_launcher_icons: "^0.14.3"
 
   # The "flutter_lints" package below contains a set of recommended lints to
@@ -48,12 +45,15 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^4.0.0
+  flutter_native_splash: ^2.4.4
+  flutter_test:
+    sdk: flutter
 
 flutter_launcher_icons:
   android: "launcher_icon"
   ios: true
   image_path: "images/splash1.jpg"
-  min_sdk_android: 21 # android min sdk min:16, default 21   
+  min_sdk_android: 21 # android min sdk min:16, default 21
 
 flutter_native_splash:
   color: "#0073CF"
@@ -64,10 +64,8 @@ flutter_native_splash:
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
-
 # The following section is specific to Flutter packages.
 flutter:
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
@@ -77,13 +75,14 @@ flutter:
   assets:
     - images/splash1.jpg
     - images/Logo.jpg
-
+    - images/HomeScreen.jpg
+    - images/House.jpg
+    - images/Bedroom.jpg
+    - images/Living_Room.jpg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
-
   # For details regarding adding assets from package dependencies, see
   # https://flutter.dev/to/asset-from-package
-
   # To add custom fonts to your application, add a fonts section here,
   # in this "flutter" section. Each entry in this list should have a
   # "family" key with the font family name, and a "fonts" key with a
@@ -103,4 +102,3 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
- 

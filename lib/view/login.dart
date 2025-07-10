@@ -8,7 +8,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final emailController = TextEditingController();
+  final nameController = TextEditingController();
   final passwordController = TextEditingController();
   final formKey = GlobalKey<FormState>();
   bool isPasswordVisible = false;
@@ -19,7 +19,7 @@ class _LoginScreenState extends State<LoginScreen> {
     if (isFormValid) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text("جاري تسجيل الدخول..."),
+          content: Text("جاري التحقق ..."),
           backgroundColor: Color(0xFF0073CF),
         ),
       );
@@ -47,37 +47,40 @@ class _LoginScreenState extends State<LoginScreen> {
                 onChanged: () => setState(() {}),
                 child: Column(
                   children: [
+                    // حقل الاسم
                     Directionality(
                       textDirection: TextDirection.rtl,
                       child: TextFormField(
-                        controller: emailController,
+                        controller: nameController,
                         textAlign: TextAlign.left,
-                        keyboardType: TextInputType.emailAddress,
+                        keyboardType: TextInputType.name,
                         decoration: InputDecoration(
-                          labelText: "البريد الإلكتروني",
+                          labelText: "الاسم",
                           labelStyle: const TextStyle(color: Color(0xFF757575)),
-                          prefixIcon: const Icon(Icons.email, color: Color(0xFF757575)),
+                          prefixIcon: const Icon(Icons.person, color: Color(0xFF757575)),
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(20),
                             borderSide: const BorderSide(color: Color(0xFF0073CF)),
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(20),
-                            borderSide: const BorderSide(color: Color(0xFF0073CF), width: 1.0),
+                            borderSide: const BorderSide(
+                                color: Color(0xFF0073CF), width: 1.0),
                           ),
                         ),
                         validator: (value) {
                           if (value == null || value.trim().isEmpty) {
-                            return 'يرجى إدخال البريد الإلكتروني';
+                            return 'يرجى إدخال الاسم';
                           }
-                          if (!RegExp(r'^[^@]+@[^@]+\.[^@]+$').hasMatch(value)) {
-                            return 'يرجى إدخال بريد إلكتروني صالح';
+                          if (value.trim().length < 2) {
+                            return 'يرجى إدخال اسم صحيح';
                           }
                           return null;
                         },
                       ),
                     ),
                     const SizedBox(height: 30),
+                    // حقل كلمة المرور
                     Directionality(
                       textDirection: TextDirection.rtl,
                       child: TextFormField(
@@ -87,10 +90,13 @@ class _LoginScreenState extends State<LoginScreen> {
                         decoration: InputDecoration(
                           labelText: "كلمة المرور",
                           labelStyle: const TextStyle(color: Color(0xFF757575)),
-                          prefixIcon: const Icon(Icons.lock, color: Color(0xFF757575)),
+                          prefixIcon:
+                              const Icon(Icons.lock, color: Color(0xFF757575)),
                           suffixIcon: IconButton(
                             icon: Icon(
-                              isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                              isPasswordVisible
+                                  ? Icons.visibility
+                                  : Icons.visibility_off,
                               color: const Color(0xFF757575),
                             ),
                             onPressed: () {
@@ -105,7 +111,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(20),
-                            borderSide: const BorderSide(color: Color(0xFF0073CF), width: 1.0),
+                            borderSide: const BorderSide(
+                                color: Color(0xFF0073CF), width: 1.0),
                           ),
                         ),
                         validator: (value) {
@@ -123,7 +130,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     MaterialButton(
                       elevation: 5.0,
                       color: isFormValid ? const Color(0xFF0073CF) : Colors.grey,
-                      padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 80),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 5, horizontal: 80),
                       shape: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(50),
                         borderSide: BorderSide.none,
