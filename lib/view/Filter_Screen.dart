@@ -458,7 +458,7 @@ class _FilterPageState extends State<FilterPage> {
       priceMax: maxPriceController.text.isNotEmpty
           ? int.tryParse(maxPriceController.text)
           : null,
-      province: 4,
+      province: selectedProvince,
     );
     await Get.to(() => FilterResault());
   }

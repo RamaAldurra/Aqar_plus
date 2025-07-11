@@ -12,8 +12,9 @@ class PropertyService {
       double? areaMax,
       int? priceMin,
       int? priceMax,
-      int? province}) async {
-    final url = Uri.parse("http://192.168.2.163:8000/api/filter/properties");
+      String? province}) async {
+    final url = Uri.parse('${Config.baseUrl}${Config.filterUser}');
+
     final body = {
       if (type != null) 'type': type,
       if (name != null) 'name': name,
@@ -31,6 +32,9 @@ class PropertyService {
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
+        'Authorization':
+            'Bearer 1|znY8JP6kgHaLWmGRbKFQ0PoVq1YRul7P3xhVJ1yude44d3ad'
+        // SheredPreferance.token
       },
       body: jsonEncode(body),
     );

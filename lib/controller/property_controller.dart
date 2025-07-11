@@ -17,7 +17,7 @@ class PropertyController extends GetxController {
     double? areaMax,
     int? priceMin,
     int? priceMax,
-    int? province,
+    String? province,
   }) async {
      print('🔎 Filter Parameters:');
   print('Type: $type');

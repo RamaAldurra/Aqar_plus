@@ -1,6 +1,6 @@
+import 'package:aqar_plus/services/favorite_services.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../services/favorites_manager.dart';
 import '../widgets/property_card.dart';
 
 class FavoritesPage extends StatelessWidget {
@@ -8,7 +8,7 @@ class FavoritesPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final favorites = Provider.of<FavoritesManager>(context).favorites;
+    final favorites = Provider.of<FavoriteServices>(context).favorites;
 
     return Scaffold(
       appBar: AppBar(
