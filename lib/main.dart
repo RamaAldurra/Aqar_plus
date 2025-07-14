@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      home: HomeScreen()
+      home: LoginScreen()
       // PropertyDetailsPage(
       //   images: [
       //     'images/Living_Room.jpg',
