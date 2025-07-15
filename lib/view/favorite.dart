@@ -1,28 +1,58 @@
-import 'package:aqar_plus/services/favorite_services.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../services/favorite_services.dart';
 import '../widgets/property_card.dart';
 
-class FavoritesPage extends StatelessWidget {
+class FavoritesPage extends StatefulWidget {
   const FavoritesPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final favorites = Provider.of<FavoriteServices>(context).favorites;
+  State<FavoritesPage> createState() => _FavoritesPageState();
+}
 
+class _FavoritesPageState extends State<FavoritesPage> {
+  late FavoriteServices favoriteServices;
+
+  @override
+  void initState() {
+    super.initState();
+    // تأجيل استدعاء fetchFavorites بعد بناء الواجهة لأول مرة
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      favoriteServices = Provider.of<FavoriteServices>(context, listen: false);
+      favoriteServices.fetchFavorites();
+    });
+  }
+
+  Future<void> _refreshFavorites() async {
+    await favoriteServices.fetchFavorites();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("المفضلة"),
+        title: const Text('المفضلة'),
         centerTitle: true,
       ),
-      body: favorites.isEmpty
-          ? const Center(child: Text("لا يوجد عقارات مفضلة بعد"))
-          : ListView.builder(
+      body: Consumer<FavoriteServices>(
+        builder: (context, favService, child) {
+          final favorites = favService.favorites;
+
+          if (favorites.isEmpty) {
+            return const Center(child: Text('لا يوجد عقارات مفضلة بعد'));
+          }
+
+          return RefreshIndicator(
+            onRefresh: _refreshFavorites,
+            child: ListView.builder(
               itemCount: favorites.length,
               itemBuilder: (context, index) {
-                return PropertyCard(property: favorites[index]); // تمرير العقار
+                return PropertyCard(property: favorites[index]);
               },
             ),
+          );
+        },
+      ),
     );
   }
 }

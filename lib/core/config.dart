@@ -1,6 +1,6 @@
 class Config {
-  static const String baseUrl = "http://192.168.43.7:8000/api/";
-  static const String host = "192.168.43.7";
+  static const String baseUrl = "http://192.168.1.102:8000/api/";
+  static const String host = "192.168.1.102";
 
 // no token
   static String fliter = "filter/properties";
@@ -22,4 +22,8 @@ class Config {
   static String addRatingSeller = "seller/add/rating";
    //login_user
    static String loginUser = "user/login";
+   //show_favorite
+   static String showFavorite = "user/showfavorite";
+   //show_proofile
+    static String showProfile = "user/showprofile";
 }

@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+import '../controller/login_controller.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -8,8 +11,9 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final nameController = TextEditingController();
-  final passwordController = TextEditingController();
+  final LoginController loginController = Get.put(LoginController());
+
+  
   final formKey = GlobalKey<FormState>();
   bool isPasswordVisible = false;
 
@@ -17,13 +21,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Future<void> login() async {
     if (isFormValid) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("جاري التحقق ..."),
-          backgroundColor: Color(0xFF0073CF),
-        ),
-      );
-
+      
       await Future.delayed(const Duration(seconds: 2));
       // هنا يمكنك الانتقال إلى صفحة أخرى أو عرض نجاح
     }
@@ -51,7 +49,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     Directionality(
                       textDirection: TextDirection.rtl,
                       child: TextFormField(
-                        controller: nameController,
+                        controller: loginController.nameController,
                         textAlign: TextAlign.left,
                         keyboardType: TextInputType.name,
                         decoration: InputDecoration(
@@ -84,7 +82,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     Directionality(
                       textDirection: TextDirection.rtl,
                       child: TextFormField(
-                        controller: passwordController,
+                        controller: loginController.passwordController,
                         textAlign: TextAlign.left,
                         obscureText: !isPasswordVisible,
                         decoration: InputDecoration(
@@ -136,7 +134,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         borderRadius: BorderRadius.circular(50),
                         borderSide: BorderSide.none,
                       ),
-                      onPressed: isFormValid ? login : null,
+                      
+                      onPressed: isFormValid ? loginController.loginUser : null,
                       child: const Text(
                         "تسجيل الدخول",
                         style: TextStyle(

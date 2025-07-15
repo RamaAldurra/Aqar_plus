@@ -4,6 +4,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 import 'package:get/get_connect/http/src/utils/utils.dart';
 
+import '../controller/favorite_controller.dart';
 import '../controller/rating_controller.dart';
 
 class PropertyDetailsPage extends StatefulWidget {
@@ -18,6 +19,16 @@ class PropertyDetailsPage extends StatefulWidget {
 class _PropertyDetailsPageState extends State<PropertyDetailsPage> {
   int userRating = 0; // تقييم المستخدم
   RatingController ratingController = Get.put(RatingController());
+
+  bool isFavorite = false;
+  final favoriteController = Get.put(FavoriteController());
+
+  @override
+  void initState() {
+    super.initState();
+    isFavorite = widget.property.isFavorite ?? false;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -79,24 +90,58 @@ class _PropertyDetailsPageState extends State<PropertyDetailsPage> {
               Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                child: RatingBar(
-                  initialRating: widget.property.userRating!,
-                  allowHalfRating: false,
-                  itemCount: 5,
-                  itemSize: 30,
-                  ratingWidget: RatingWidget(
-                    full: Icon(Icons.star, color: Colors.amber),
-                    half: Icon(Icons.star_half, color: Colors.amber),
-                    empty: Icon(Icons.star_border, color: Colors.amber),
-                  ),
-                  onRatingUpdate: (newRating) async {
-                    await ratingController.addRating(property_id: widget.property.id, rating: newRating.toInt());
-                    
-                    setState(() {
-                      userRating = newRating.toInt();
-                      widget.property.userRating = newRating;
-                   });
-                  },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    // ⭐️ Rating stars
+                    Expanded(
+                      child: RatingBar(
+                        initialRating: widget.property.userRating ?? 0,
+                        allowHalfRating: false,
+                        itemCount: 5,
+                        itemSize: 30,
+                        ratingWidget: RatingWidget(
+                          full: Icon(Icons.star, color: Colors.amber),
+                          half: Icon(Icons.star_half, color: Colors.amber),
+                          empty: Icon(Icons.star_border, color: Colors.amber),
+                        ),
+                        onRatingUpdate: (newRating) async {
+                          await ratingController.addRating(
+                            property_id: widget.property.id,
+                            rating: newRating.toInt(),
+                          );
+                          setState(() {
+                            userRating = newRating.toInt();
+                            widget.property.userRating = newRating;
+                          });
+                        },
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+
+                    // ❤️ Favorite icon
+                    IconButton(
+                      iconSize: 30,
+                      icon: Icon(
+                        isFavorite ? Icons.favorite : Icons.favorite_border,
+                        color: Colors.red,
+                      ),
+                      onPressed: () async {
+                        if (isFavorite) {
+                          await favoriteController.deleteFavorite(
+                              property_id: widget.property.id);
+                        } else {
+                          await favoriteController.addFavorite(
+                              property_id: widget.property.id);
+                        }
+                        setState(() {
+                          isFavorite = !isFavorite;
+                          widget.property.isFavorite =
+                              isFavorite; // لتحديث الكارد أيضًا عند الرجوع
+                        });
+                      },
+                    ),
+                  ],
                 ),
               ),
 

@@ -40,10 +40,9 @@ class _PropertyCardState extends State<PropertyCard> {
 
     FavoriteController favoriteController = Get.put(FavoriteController());
     return InkWell(
-      onTap: () {
-        Get.to(PropertyDetailsPage(
-          property: property,
-        ));
+      onTap: () async {
+        await Get.to(() => PropertyDetailsPage(property: property));
+        setState(() {}); // يعيد بناء الكارد بعد الرجوع
       },
       child: Directionality(
         textDirection: TextDirection.rtl,
@@ -131,10 +130,12 @@ class _PropertyCardState extends State<PropertyCard> {
                               color: Colors.red,
                             ),
                             onPressed: () async {
-                              if(property.isFavorite!) {
-                                  await favoriteController.deleteFavorite(property_id: property.id);
-                              }
-                              else {await favoriteController.addFavorite(property_id: property.id);
+                              if (property.isFavorite!) {
+                                await favoriteController.deleteFavorite(
+                                    property_id: property.id);
+                              } else {
+                                await favoriteController.addFavorite(
+                                    property_id: property.id);
                               }
                               setState(() {
                                 property.isFavorite = !property.isFavorite!;
@@ -152,33 +153,10 @@ class _PropertyCardState extends State<PropertyCard> {
                             fontSize: 16, fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(height: 4),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'السعر: \$${property.finalPrice.toString()}',
-                            style: TextStyle(color: Colors.grey[700]),
-                          ),
-                          RatingBar(
-                            initialRating: rating,
-                            direction: Axis.horizontal,
-                            allowHalfRating: false,
-                            itemCount: 5,
-                            itemSize: 24,
-                            ratingWidget: RatingWidget(
-                              full: const Icon(Icons.star, color: Colors.amber),
-                              half: const Icon(Icons.star_half,
-                                  color: Colors.amber),
-                              empty: const Icon(Icons.star_border,
-                                  color: Colors.amber),
-                            ),
-                            onRatingUpdate: (newRating) {
-                              setState(() {
-                                rating = newRating;
-                              });
-                            },
-                          ),
-                        ],
+
+                      Text(
+                        'السعر: \$${property.finalPrice.toString()}',
+                        style: TextStyle(color: Colors.grey[700]),
                       ),
                     ],
                   ),

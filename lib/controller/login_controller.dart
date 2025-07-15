@@ -4,12 +4,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../models/login_model.dart';
 import 'dart:convert';
 import '../services/login_services.dart';
+import '../view/Home_Screen.dart';
 
 class LoginController extends GetxController {
   TextEditingController nameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
-  Future<void> loginUser() async {
+  void loginUser() async {
     try {
       final loginModel = LoginModel(
         name: nameController.text.trim(),
@@ -24,13 +25,35 @@ class LoginController extends GetxController {
         final prefs = await SharedPreferences.getInstance();
         await prefs.setString('token', loginResponse.token!);
 
-        Get.snackbar("نجاح", loginResponse.message);
-        // Navigate to home or whatever
+        // ✅ عرض رسالة نجاح بدون context
+        Get.snackbar(
+          "نجاح",
+          loginResponse.message,
+          backgroundColor:  Color(0xFF0073CF),
+          colorText: Colors.white,
+          snackPosition: SnackPosition.BOTTOM,
+          duration: const Duration(seconds: 3),
+        );
+
+        // ✅ التنقل إلى الصفحة الرئيسية
+        Get.offAll(() => HomeScreen());
       } else {
-        Get.snackbar("خطأ", loginResponse.message);
+        Get.snackbar(
+          "فشل",
+          loginResponse.message,
+          backgroundColor:  Color(0xFF0073CF),
+          colorText: Colors.white,
+          snackPosition: SnackPosition.BOTTOM,
+        );
       }
     } catch (e) {
-      Get.snackbar("خطأ", "حدث خطأ أثناء تسجيل الدخول");
+      Get.snackbar(
+        "خطأ",
+        "حدث خطأ أثناء تسجيل الدخول",
+        backgroundColor: Color(0xFF0073CF),
+        colorText: Colors.white,
+        snackPosition: SnackPosition.BOTTOM,
+      );
     }
   }
 }
